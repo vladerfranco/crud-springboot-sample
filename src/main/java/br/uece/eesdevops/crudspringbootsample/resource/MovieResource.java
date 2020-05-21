@@ -49,6 +49,7 @@ public class MovieResource {
     @PostMapping(path = "/{id}/ratings")
     public ResponseEntity<Rating> saveRatingOfMovie(@PathVariable Long id, @RequestBody Rating rating) {
         rating.setMovie(service.findById(id));
-        return created(URI.create(format("/ratings/%s", ratingService.save(rating).getId()))).build();
+        Rating saved = ratingService.save(rating);
+        return created(URI.create(format("/ratings/%s", saved.getId()))).body(saved);
     }
 }
